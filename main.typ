@@ -85,14 +85,61 @@
   )
 ]
 
-#slide(title: [Codes])[
+#slide(title: [The codes])[
   #grid(columns: (1fr, 1fr), inset: 4pt,
     [
       == Chicken
+        - Block-structured grids
+        - Finite volume
+          - Selection of upwind flux caculators
+          - 2nd order accuracy via MUSCL style reconstruction
+          - Van-albada limiter
+        - Viscous gradients calculated with least-squares
+        - Time integration:
+          - 3rd order Runge-Kutta time integration
     ],
     [
       == Ibis
+        - Unstructured grids
+        - Finite volume
+          - Selection of upwind flux caculators
+          - 2nd order accuracy via MUSCL style reconstruction
+          - Barth-Jespersen limiter
+        - Inviscid and viscous gradients calculated with least-squares
+        - Time integration:
+          - Any explicit Runge-Kutta
+          - Jacobian-Free Newton-Krylov
     ]
   )
+]
+
+#slide(title: [The test problem])[
+  #grid(columns: (2fr, 1fr), inset: 4pt,
+  [
+    Gaseous injection into Mach 4 cross-flow
+  ],
+  [
+    == Numerics
+      - 300 $times$ 300 $times$ 300 grid?
+      - AUSMDV flux calculator
+  ]
+    
+  )
+]
+
+#slide(title: [Code performance with grid resolution])[
+  - Plot of the time per update per cell
+]
+
+#slide(title: [Acceleration on different hardware])[
+  - Plot of acceleration of the different hardware
+]
+
+#slide(title: [GPU utilisation])[
+  
+]
+
+#slide(title: [Conclusions])[
+  - 
 ]
 
