@@ -1,10 +1,10 @@
-#import "@preview/polylux:0.3.1": polylux-slide, logic, utils, pause, only
+#import "@preview/polylux:0.3.1": polylux-slide, logic, utils, pause, only, uncover
 // #import "@preview/touying:0.4.2": *
 
 #let tud-outer-margin = 30pt
-#let tud-inner-margin = 30pt
+#let tud-inner-margin = 20pt
 #let tud-top-margin = 60pt
-#let tud-bottom-margin = 40pt
+#let tud-bottom-margin = 30pt
 
 #let tud-title = state("tud-title", none)
 #let tud-subtitle = state("tud-sub-title", none)
@@ -127,7 +127,7 @@
     tud-date.update(date)
     tud-title.update(title)
     tud-subtitle.update(subtitle)
-    tud-short-title.update(title)
+    tud-short-title.update(short-title)
     tud-organizational-unit.update(organizational-unit)
     tud-location-occasion.update(location-occasion)
     tud-show-guides.update(show-guides)
@@ -139,15 +139,17 @@
 
   #let footer = block(width: 100%, height: 100%, fill: uq-purple)[
     #set text(size: 8pt,  fill: white)
-    #block(width: 100%, inset: (x: tud-outer-margin, top: 10pt),
+    #set align(horizon)
+    #block(width: 100%, inset: (x: 10pt),
       align(
         horizon,
         grid(
-          columns: (1fr, 1fr),
+          columns: (1fr, auto, 1fr),
           // gutter: 50pt,
           image(
             "uq-logo-white.svg", height: 22pt
           ),
+          context tud-short-title.get(),
           align(right,
             [
               Slide #logic.logical-slide.display()/#strong(utils.last-slide-number)
@@ -175,7 +177,7 @@
           #block(width: 100%, height: 100%, inset: (x: tud-outer-margin, top: 0pt))[
             #set align(top)
             #set align(horizon)
-            #show heading: set text(fill: white, size: 2em)
+            #show heading: set text(fill: white, size: 1.5em)
             #heading(title)
             
           ]
