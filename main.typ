@@ -27,12 +27,15 @@
         - Frontier:  38000 AMD GPUs
         - Aurura: Intel GPUs
         - El Capitan: 44000 AMD GPUs
+
+      - Nvidia is the dominant GPU manufacturer
     ]
   )
   #uncover(2)[
     #set align(center + horizon)
-    == Having the codes run on all GPUs is preferrable
+    == Having the codes run on all GPUs is desirable
   ]
+
 ]
 
 #slide(title: [GPU programming models])[
@@ -126,8 +129,14 @@
   #set align(center + horizon)
   == Which programming model should we use?
 
-  #uncover(2)[
+  #uncover((beginning: 2))[
     == How well do they run across the different GPU brands?
+  ]
+
+  #h(2em)
+
+  #uncover(3)[
+    Todays talk: Compare Kokkos with pure CUDA
   ]
 ]
 
