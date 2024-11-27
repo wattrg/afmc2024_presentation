@@ -16,7 +16,16 @@
 )
 
 #slide(title: [The rise of GPUs])[
-  Hello.
+  #grid(
+    columns: (1fr, 1fr),
+    inset: 2pt, gutter: 4pt,
+    [
+      - In 2018, most of the FLOPS added to the top500 supercomputer list came from GPUs (i.e. more GPU compute power than CPU compute power was added to the list)
+    ],
+    [
+      
+    ]
+  )
 ]
 
 #slide(title: [GPU programming models])[
@@ -37,7 +46,7 @@
         [
           == #box(height: 0.8em, image("sycl.png"))
             #set text(size: 10pt)
-            - Abstraction for heterogeneous programming in C++
+            - Provides an abstraction for heterogeneous programming in C++
             - Implemented by various compilers (e.g. OneAPI by Intel)
             - Runs on any (supported) accelerator
         ]    
@@ -60,7 +69,7 @@
       )
       #rect(radius: 4pt, inset: 4pt, width: 100%,
         [
-          == Julia
+          == #box(height: 0.8em, image("julia.svg"))
             #set text(size: 10pt)
             - Programming language with libraries to execute on Nvidia and AMD GPUs
         ]
@@ -117,24 +126,29 @@
 
 #slide(title: [Kokkos overview])[
   - C++ library managing mapping of parallelism of the algorithm to the parallelism of the hardware
-  - Can compile using vendor-provided compilers (e.g. CUDA or HIP), or can use SYCL.
+  - Can compile using vendor-provided compilers (e.g. CUDA or HIP), or can use SYCL, OpenMP, C++ threads etc.
+  - Kokkos manages shared memory parallelisation
+    - Compatible with MPI, HPX, etc.
 
-  #grid(
-    columns: (1fr, 1fr), inset: 4pt,
-    [
-      == Advantages  
-        - Automatic memory managment
-        - Compile-time configurable memory layout (row major vs column major arrays)
-        - Transparent managment of different memory spaces
-        - Can perform device specific optimisations
-    ],
-    [
-      == Disadvantages
-        - Still C++
-        - Relies heavily on template meta-programming
-          - may be confusing for C++ beginners
-          - Compile times are longer, but not necessarily prohibitive
-    ]
+  #rect(radius: 4pt, inset: 4pt,
+    grid(
+      columns: (1fr, 1fr), inset: 4pt,
+      [
+        == Advantages  
+          - Automatic memory managment
+          - Compile-time configurable memory layout (row major vs column major arrays)
+            - Helps get the best memory layout for a particular piece of hardware
+          - Transparent managment of different memory spaces
+          - Can perform device specific optimisations
+      ],
+      [
+        == Disadvantages
+          - Still C++
+          - Relies heavily on template meta-programming
+            - may be confusing for C++ beginners
+            - Compile times are longer, but not necessarily prohibitive
+      ]
+    )
   )
 ]
 
@@ -205,7 +219,7 @@
     [
       == Chicken #emoji.chicken
         - CUDA/HIP
-        - Block-structured grids
+        - #only(1)[Block-structured grids] #only(2)[*Block-structured grids*]
         - Finite volume
           - Selection of upwind flux caculators
           - 2nd order accuracy via MUSCL style reconstruction
@@ -229,14 +243,15 @@
     [
       == Ibis #emoji.bin#emoji.chicken
         - Kokkos
-        - Unstructured grids
+        - #only(1)[Unstructured grids] #only(2)[*Unstructured grids*]
         - Finite volume
           - Selection of upwind flux caculators
           - 2nd order accuracy via MUSCL style reconstruction
           - Barth-Jespersen limiter
-        - Inviscid and viscous gradients calculated with least-squares
+        - #only(1)[Inviscid] #only(2)[*Inviscid*] and viscous gradients calculated with least-squares
         - Time integration:
           - Any explicit Runge-Kutta
+          - Jacobian-Free Newton-Krylov
     ]
   )
       #set text(size: 13pt)
@@ -273,18 +288,22 @@
   ],
   [
     == Conditions
+      #set text(size: 12pt)
+      #set align(center)
       #table(
         columns: (auto, auto, auto, auto),
         inset: 5pt,
         stroke: none,
         align: horizon+center,
         table.hline(),
-        table.header([], [Pressure (kPa)], [Temp \ (K)], [Velocity (m/s)]),
+        table.header([], [Pressure \ (kPa)], [Temperature \ (K)], [Velocity \ (m/s)]),
         table.hline(),
         [Free-stream], [1.013], [300], [1390],
         [Injector], [10.013], [300], [350],
         table.hline(),
       )
+    #set text(size: 15pt)
+    #set align(left)
     == Grid
       - Various grid resolutions from 0.5-3.5~million cells
       - `Chicken` used blocking structure indicated in @domain-schematic
@@ -292,6 +311,8 @@
 
     == Numerics
       - AUSMDV flux calculator
+      - #nth(2) order accurate spatially
+      - #nth(3) order Runge-Kutta time-stepping
   ]
     
   )
@@ -305,8 +326,9 @@
 ]
 
 #slide(title: [Code performance with grid resolution])[
+  #set text(size: 14.5pt)
   #grid(
-    columns: (1.5fr, 1fr),
+    columns: (1.4fr, 1fr),
     [
       #figure(
         image("h100_performance.svg", width: 100%),
@@ -316,10 +338,11 @@
     [
       == Motivation
         - Check to make sure the GPU is saturated #uncover((beginning: 2))[\u{2713}]
+          - `Chicken` may require more cells to saturate the GPU
         - Get base-line performance of each code #uncover((beginning: 3))[\u{2713}]
 
       #uncover(4)[
-        == Some comments
+        == Reasons for differences
           - `Chicken` moves memory for #nth(2) order around even when doing #nth(1) order, so #nth(1) order is slow
           - `Chicken` calculates all fluxes in one large kernel
             - This may be causing register pressure, leading to lower occupancy than `Ibis`
@@ -342,7 +365,7 @@
     [
       #set align(horizon)
       - `Ibis` (Kokkos) had greater acceleration on all HPC grade GPUs
-        - Likely due to `Ibis` having greater occupancy owing to smaller kernels, smaller register count, and higher occupancy
+        - Likely due to `Ibis` having greater occupancy owing to smaller kernels, smaller register count, higher occupancy, and better memory access patters
       - `Chicken` (CUDA) had greater acceleration on consumer grade GPU
     ]
   )
@@ -371,5 +394,6 @@
     - Leave the details of the parallelism to the experts, and we'll write the physics
   - Code design and memory access patterns had a larger impact on performance than overhead from abstractions
   - Kokkos seems to be a good option for performance portable code
+  - But maybe one of the others is better?
 ]
 
