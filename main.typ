@@ -15,26 +15,42 @@
   date: datetime(day: 2, month: 12, year: 2024)
 )
 
-#slide(title: [The rise of GPUs])[
+#slide(title: [The fragmentation of GPUs])[
+  #set align(center)
+  #text(weight: "bold", [Many HPC:]) Nvidia
+  #figure(
+    image("h100.jpeg", height: 7em),
+    caption: [https://www.nvidia.com/en-au/data-center/h100/]
+  )
+
   #grid(
-    columns: (1fr, 1fr),
-    inset: 2pt, gutter: 4pt,
+    columns: (1fr, 1fr, 1fr), align: center,
     [
-      - In 2018 most of the compute power added to the top500 supercomputer list was GPUs
+      #text(weight: "bold", [Frontier:]) AMD Mi250X
+      #figure(
+        image("mi250x.png", height: 7em),
+        caption: [https://www.amd.com/en/products/accelerators/instinct/mi200/mi250x.html]
+      )
     ],
     [
-      - The three exascale computers:
-        - Frontier:  38000 AMD GPUs
-        - Aurura: Intel GPUs
-        - El Capitan: 44000 AMD GPUs
-
-      - Nvidia is the dominant GPU manufacturer
+      #text(weight: "bold", [El Capitan:]) AMD Mi300
+      #figure(
+        image("mi300x.png", height: 7em),
+        caption: [https://www.amd.com/en/products/accelerators/instinct/mi300.html]
+      )
+    ],
+    [
+      #text(weight: "bold", [Aurora:]) Intel Data Center GPU Max
+      #figure(
+        image("intel_gpu.jpeg", height: 7em),
+        caption: [https://www.tweaktown.com/news/89438/intels-new-data-center-gpu-max-1100-uses-controversial-12vhpwr-connector/index.html]
+      )
     ]
   )
-  #uncover(2)[
-    #set align(center + horizon)
-    == Having the codes run on all GPUs is desirable
-  ]
+  // #uncover(2)[
+  //   #set align(center + horizon)
+  //   == Having the codes run on all GPUs is desirable
+  // ]
 
 ]
 
@@ -119,6 +135,12 @@
             #set text(size: 10pt)
               - Parallelism library built into C++ compilers
               - Allows for offload to many devices, including GPUs
+        ]
+      )
+      #rect(radius: 4pt, inset: 4pt, width: 100%,
+        [
+          == #box(height: 0.8em, image("OpenCL_logo.png"))
+            - Maybe dead? Maybe not?
         ]
       )
     ]
@@ -247,7 +269,7 @@
         - Finite volume
           - Selection of upwind flux caculators
           - 2nd order accuracy via MUSCL style reconstruction
-          - Van-albada limiter
+          - Van-Albada limiter
         - Viscous gradients calculated with least-squares
         - Time integration:
           - 3rd order Runge-Kutta time integration
@@ -270,19 +292,19 @@
       #uncover((beginning: 3))[
         == Ibis #emoji.bin#emoji.chicken
           - Kokkos
-          - #only((3, 4))[Unstructured grids] #only(5)[*Unstructured grids*]
+          - #only(3)[Unstructured grids] #only((4,5))[*Unstructured grids*]
           - Finite volume
             - Selection of upwind flux caculators
             - 2nd order accuracy via MUSCL style reconstruction
             - Barth-Jespersen limiter
-          - #only((3,4))[Inviscid] #only(5)[*Inviscid*] and viscous gradients calculated with least-squares
+          - #only(3)[Inviscid] #only((4,5))[*Inviscid*] and viscous #only(3)[gradients] #only((4,5))[*gradients*] calculated with least-squares
           - Time integration:
             - Any explicit Runge-Kutta
             - Jacobian-Free Newton-Krylov        
       ]
     ]
   )
-  #uncover((beginning: 4))[
+  #uncover((beginning: 5))[
     #set text(size: 13pt)
     #place(bottom+right, float: true, dx: -50pt, dy: -5pt,
       align(center, 
