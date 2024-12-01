@@ -16,37 +16,53 @@
 )
 
 #slide(title: [The fragmentation of GPUs])[
-  #set align(center)
-  #text(weight: "bold", [Many HPC:]) Nvidia
-  #figure(
-    image("h100.jpeg", height: 7em),
-    caption: [https://www.nvidia.com/en-au/data-center/h100/]
-  )
-
   #grid(
-    columns: (1fr, 1fr, 1fr), align: center,
+    columns: (1fr, 1fr),
     [
-      #text(weight: "bold", [Frontier:]) AMD Mi250X
+      #set align(center)
+      #text(weight: "bold", [Gadi:]) Nvidia
+      #figure(
+        image("h100.jpeg", height: 7em),
+        caption: [https://www.nvidia.com/en-au/data-center/h100/]
+      )
+    ],
+    [
+      #set align(center)
+      #text(weight: "bold", [Setonix:]) AMD Mi250X
       #figure(
         image("mi250x.png", height: 7em),
-        caption: [https://www.amd.com/en/products/accelerators/instinct/mi200/mi250x.html]
+        caption: [https://www.nvidia.com/en-au/data-center/h100/]
       )
-    ],
-    [
-      #text(weight: "bold", [El Capitan:]) AMD Mi300
-      #figure(
-        image("mi300x.png", height: 7em),
-        caption: [https://www.amd.com/en/products/accelerators/instinct/mi300.html]
-      )
-    ],
-    [
-      #text(weight: "bold", [Aurora:]) Intel Data Center GPU Max
-      #figure(
-        image("intel_gpu.jpeg", height: 7em),
-        caption: [https://www.tweaktown.com/news/89438/intels-new-data-center-gpu-max-1100-uses-controversial-12vhpwr-connector/index.html]
-      )
+      
     ]
   )
+
+  #uncover(2)[
+    #grid(
+      columns: (1fr, 1fr, 1fr), align: center,
+      [
+        #text(weight: "bold", [Frontier:]) AMD Mi250X
+        #figure(
+          image("mi250x.png", height: 7em),
+          caption: [https://www.amd.com/en/products/accelerators/instinct/mi200/mi250x.html]
+        )
+      ],
+      [
+        #text(weight: "bold", [El Capitan:]) AMD Mi300
+        #figure(
+          image("mi300x.png", height: 7em),
+          caption: [https://www.amd.com/en/products/accelerators/instinct/mi300.html]
+        )
+      ],
+      [
+        #text(weight: "bold", [Aurora:]) Intel Data Center GPU Max
+        #figure(
+          image("intel_gpu.jpeg", height: 7em),
+          caption: [https://www.tweaktown.com/news/89438/intels-new-data-center-gpu-max-1100-uses-controversial-12vhpwr-connector/index.html]
+        )
+      ]
+    )
+  ]
   // #uncover(2)[
   //   #set align(center + horizon)
   //   == Having the codes run on all GPUs is desirable
@@ -56,8 +72,8 @@
 
 #slide(title: [GPU programming models])[
   #grid(
-    columns: (1fr, 1fr),
-    inset: 2pt, gutter: 4pt,
+    columns: (1fr, 1fr, 1fr),
+    inset: 2pt,
     [
       #rect(radius: 4pt, inset: 4pt, width: 100%,
         [
@@ -93,13 +109,6 @@
             - Runs on any (supported) accelerator
         ]
       )
-      #rect(radius: 4pt, inset: 4pt, width: 100%,
-        [
-          == #box(height: 0.8em, image("julia.svg"))
-            #set text(size: 10pt)
-            - Programming language with libraries to execute on Nvidia and AMD GPUs
-        ]
-      )
     ],
     [
       #rect(radius: 4pt, inset: 4pt, width: 100%,
@@ -129,6 +138,8 @@
             - Runs on CPUs, Nvidia GPUs, with some AMD and Intel GPU support
         ]
       )
+    ],
+    [
       #rect(radius: 4pt, inset: 4pt, width: 100%,
         [
           == #box(height: 0.8em, image("OpenMP_logo.png"))
@@ -140,7 +151,15 @@
       #rect(radius: 4pt, inset: 4pt, width: 100%,
         [
           == #box(height: 0.8em, image("OpenCL_logo.png"))
+            #set text(size: 10pt)
             - Maybe dead? Maybe not?
+        ]
+      )
+      #rect(radius: 4pt, inset: 4pt, width: 100%,
+        [
+          == #box(height: 0.8em, image("julia.svg"))
+            #set text(size: 10pt)
+            - Programming language with libraries to execute on Nvidia and AMD GPUs
         ]
       )
     ]
