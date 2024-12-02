@@ -284,7 +284,7 @@
     [
       == Chicken #emoji.chicken
         - CUDA/HIP
-        - #only((1,2,3,4))[Block-structured grids] #only(5)[*Block-structured grids*]
+        - #only((1,2,3))[Block-structured grids] #only((4,5))[*Block-structured grids*]
         - Finite volume
           - Selection of upwind flux caculators
           - 2nd order accuracy via MUSCL style reconstruction
